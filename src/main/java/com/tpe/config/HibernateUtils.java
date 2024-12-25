@@ -10,31 +10,26 @@ import org.hibernate.cfg.Configuration;
 
 public class HibernateUtils {
 
-
     private static SessionFactory sessionFactory;
 
-
-
     static {
-        try{
+
+        try {
             Configuration configuration=new Configuration().configure().
                     addAnnotatedClass(Hotel.class).
                     addAnnotatedClass(Room.class).
                     addAnnotatedClass(Reservation.class).
                     addAnnotatedClass(Guest.class);
 
-            sessionFactory= configuration.buildSessionFactory();
-        } catch (Exception e) {
+            sessionFactory=configuration.buildSessionFactory();
+
+        }catch (Exception e){
             System.out.println("Initialization of session factory is FAILED!!!");
         }
 
-        // GETTER
-
-
     }
 
-
-    // GETTER
+    //getter
     public static SessionFactory getSessionFactory() {
         return sessionFactory;
     }
@@ -43,6 +38,7 @@ public class HibernateUtils {
     public static void shutDown(){
 
         getSessionFactory().close();
+
     }
 
     //sessionı kapatma
@@ -51,7 +47,6 @@ public class HibernateUtils {
             session.close();
         }
     }
-
 
 
 }

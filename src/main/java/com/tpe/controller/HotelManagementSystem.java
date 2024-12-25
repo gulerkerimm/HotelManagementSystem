@@ -1,6 +1,14 @@
 package com.tpe.controller;
 
 import com.tpe.config.HibernateUtils;
+import com.tpe.repository.GuestRepository;
+import com.tpe.repository.HotelRepository;
+import com.tpe.repository.ReservationRepository;
+import com.tpe.repository.RoomRepository;
+import com.tpe.service.GuestService;
+import com.tpe.service.HotelService;
+import com.tpe.service.ReservationService;
+import com.tpe.service.RoomService;
 
 import java.util.Scanner;
 
@@ -10,6 +18,18 @@ public class HotelManagementSystem {
 
     //ana menü kullanıcıya gösterilir ve seçimi alınır
     public static void displayHotelManagementSystemMenu() {
+        //NOT:sadece 1'er tane service ve repo objeleri oluşturulur ve tüm uygulamada kullanılır.
+        HotelRepository hotelRepository=new HotelRepository();
+        HotelService hotelService=new HotelService(hotelRepository);
+
+        RoomRepository roomRepository=new RoomRepository();
+        RoomService roomService=new RoomService(roomRepository,hotelService);
+
+        GuestRepository guestRepository=new GuestRepository();
+        GuestService guestService=new GuestService(guestRepository);
+
+        ReservationRepository reservationRepository=new ReservationRepository();
+        ReservationService reservationService=new ReservationService(reservationRepository,roomService,guestService);
 
         int choice;
 
@@ -27,16 +47,16 @@ public class HotelManagementSystem {
 
             switch (choice) {
                 case 1:
-                    displayHotelOperationsMenu();
+                    displayHotelOperationsMenu(hotelService);
                     break;
                 case 2:
-                    displayRoomOperationsMenu();
+                    displayRoomOperationsMenu(roomService);
                     break;
                 case 3:
-                    displayGuestOperationsMenu();
+                    displayGuestOperationsMenu(guestService);
                     break;
                 case 4:
-                    displayReservationOperationsMenu();
+                    displayReservationOperationsMenu(reservationService);
                     break;
                 case 0:
                     System.out.println("Good Bye...");
@@ -54,7 +74,9 @@ public class HotelManagementSystem {
 
     //her bir kategori için ayrı metodlar oluşturalım:işlemleri gösteren ve seçimini alan
 //hotel operations
-    private static void displayHotelOperationsMenu() {
+    private static void displayHotelOperationsMenu(HotelService hotelService) {
+
+        //HotelService hotelService=new HotelService();
 
         System.out.println("Hotel Operation Menu");
 
@@ -74,19 +96,36 @@ public class HotelManagementSystem {
 
             switch (choice) {
                 case 1:
-
+                    //1-a:oteli kaydetme
+                    hotelService.saveHotel();
                     break;
                 case 2:
+                    //2-a:hotel bulma
+                    System.out.println("Enter hotel ID: ");
+                    Long id= scanner.nextLong();
+                    scanner.nextLine();
 
+                    hotelService.findHotelById(id);
                     break;
                 case 3:
+                    //7-a
+                    System.out.println("Enter hotel ID: ");
+                    Long hotelid= scanner.nextLong();
+                    scanner.nextLine();
 
+                    hotelService.deleteHotelById(hotelid);
                     break;
                 case 4:
-
+                    //3-a:tüm otelleri listeleme
+                    hotelService.getAllHotels();
                     break;
                 case 5:
+                    //8-a
+                    System.out.println("Enter hotel ID: ");
+                    Long updatedHotelid= scanner.nextLong();
+                    scanner.nextLine();
 
+                    hotelService.updateHotelById(updatedHotelid);
                     break;
                 case 0:
                     exit = true;
@@ -101,9 +140,9 @@ public class HotelManagementSystem {
     }
 
     //room operations
-    private static void displayRoomOperationsMenu() {
+    private static void displayRoomOperationsMenu(RoomService roomService) {
 
-
+        //RoomService roomService1=new RoomService();
         System.out.println("Room Operation Menu");
         boolean exit = false;
         while (!exit) {
@@ -120,16 +159,24 @@ public class HotelManagementSystem {
 
             switch (choice) {
                 case 1:
-
+                    //4-a:bir odayı oluşturma
+                    roomService.saveRoom();
                     break;
                 case 2:
+                    //5-a:ÖDEV
+                    System.out.println("Enter room ID : ");
+                    Long roomId= scanner.nextLong();
+                    scanner.nextLine();
+
+                    roomService.findRoomById(roomId);
 
                     break;
                 case 3:
-
+                    //ÖDEV1:id si verien odayı silme
                     break;
                 case 4:
-
+                    //6-a:ÖDEV
+                    roomService.getAllRooms();
                     break;
                 case 0:
                     exit = true;
@@ -145,7 +192,7 @@ public class HotelManagementSystem {
     }
 
     //guest operations
-    private static void displayGuestOperationsMenu() {
+    private static void displayGuestOperationsMenu(GuestService guestService) {
         System.out.println("Guest Operation Menu");
 
         boolean exit = false;
@@ -163,15 +210,20 @@ public class HotelManagementSystem {
 
             switch (choice) {
                 case 1:
+                    //9-a
+                    guestService.saveGuest();
 
                     break;
                 case 2:
+                    //ÖDEV2:guesti bulma
 
                     break;
                 case 3:
+                    //ÖDEV3:guesti silme
 
                     break;
                 case 4:
+                    //ÖDEV 4:tüm konukları listeleme
 
                     break;
                 case 0:
@@ -186,9 +238,7 @@ public class HotelManagementSystem {
     }
 
     //reservation operations
-    private static void displayReservationOperationsMenu() {
-
-
+    private static void displayReservationOperationsMenu(ReservationService reservationService) {
         System.out.println("Reservation Operation Menu");
 
         boolean exit = false;
@@ -206,17 +256,20 @@ public class HotelManagementSystem {
 
             switch (choice) {
                 case 1:
-                    //1-A OTELİ KAYDETME
-
+                    //10-a:yeni rezervasyon
+                    reservationService.createReservation();
 
                     break;
                 case 2:
+                    //ÖDEV5:
 
                     break;
                 case 3:
+                    //ÖDEV6:
 
                     break;
                 case 4:
+                    //ÖDEV7:
 
                     break;
                 case 0:

@@ -90,4 +90,33 @@ public class RoomService {
             System.out.println("No rooms found!");
         }
     }
+
+    //ödev 1 b idsi verilen odsayı silme
+    public void deleteRoomById(Long roomId){
+        //id si verilen oda var mı
+        Room foundRoom = findRoomById(roomId);
+
+        if (foundRoom!=null){
+            System.out.println(foundRoom);
+            System.out.println("Are you sure to delete : "+roomId);
+            System.out.println("Please answer with Y or N : ");
+            String select =scanner.next();
+
+            if (select.equalsIgnoreCase("Y")){
+                roomRepository.delete(roomId);
+                System.out.println("Room is deleted ... ");
+
+            }else{
+                System.out.println("Delete operation is cancelled !!!");
+            }
+
+        }else{
+            System.out.println("Delete operation is cancelled !!! ");
+        }
+
+    }
+
+
+
+
 }

@@ -56,4 +56,20 @@ public class RoomRepository {
         }
     }
 
+    public void delete(Long foundId) {
+        try {
+            session=HibernateUtils.getSessionFactory().openSession();
+            Transaction t = session.beginTransaction();
+
+            //delete from t_room where id =+foundRoom.getId
+            session.delete(foundId);
+            t.commit();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+
+        }finally {
+            HibernateUtils.closeSession(session);
+        }
+    }
 }

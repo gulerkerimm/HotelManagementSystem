@@ -162,22 +162,29 @@ public class HotelManagementSystem {
                     //4-a:bir odayı oluşturma
                     roomService.saveRoom();
                     break;
+
                 case 2:
                     //5-a:ÖDEV
                     System.out.println("Enter room ID : ");
-                    Long roomId= scanner.nextLong();
+                    Long Id= scanner.nextLong();
                     scanner.nextLine();
-
-                    roomService.findRoomById(roomId);
-
+                    roomService.findRoomById(Id);
                     break;
+
                 case 3:
                     //ÖDEV1:id si verien odayı silme
+                    System.out.println("Enter room ID : ");
+                   Long roomId= scanner.nextLong();
+                   scanner.nextLine();
+
+                   roomService.findRoomById(roomId);
                     break;
+
                 case 4:
                     //6-a:ÖDEV
                     roomService.getAllRooms();
                     break;
+
                 case 0:
                     exit = true;
                     System.out.println("Returning to Main Menu...");
@@ -216,6 +223,8 @@ public class HotelManagementSystem {
                     break;
                 case 2:
                     //ÖDEV2:guesti bulma
+
+
 
                     break;
                 case 3:
